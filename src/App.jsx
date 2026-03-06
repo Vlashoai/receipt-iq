@@ -59,12 +59,7 @@ Rules:
 
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
-    headers: {
-  "Content-Type": "application/json",
-  "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
-  "anthropic-version": "2023-06-01",
-  "anthropic-dangerous-direct-browser-access": "true",
-},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1000,
@@ -109,12 +104,7 @@ Category options: Food, Essentials, Household, Personal Care, Cleaning Supplies,
 
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
-    headers: {
-  "Content-Type": "application/json",
-  "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
-  "anthropic-version": "2023-06-01",
-  "anthropic-dangerous-direct-browser-access": "true",
-},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1000,
@@ -244,6 +234,7 @@ export default function App() {
   const [manualText, setManualText] = useState("");
   const [scanMode, setScanMode] = useState("image"); // image | text
   const fileRef = useRef();
+  const cameraRef = useRef();
 
   // ── Derived data ────────────────────────────────────────────────────────────
 
@@ -583,19 +574,26 @@ export default function App() {
           </div>
 
           {scanMode === "image" ? (
-            <div
-              style={{ ...S.card, border: "2px dashed #1e3a5f", textAlign: "center", cursor: "pointer", transition: "border-color 0.2s" }}
-              onClick={() => fileRef.current?.click()}
-              onDragOver={e => { e.preventDefault(); e.currentTarget.style.borderColor = "#2563eb"; }}
-              onDragLeave={e => { e.currentTarget.style.borderColor = "#1e3a5f"; }}
-              onDrop={e => { e.preventDefault(); e.currentTarget.style.borderColor = "#1e3a5f"; handleFile(e.dataTransfer.files[0]); }}
-            >
-              <input ref={fileRef} type="file" accept="image/*,application/pdf" style={{ display: "none" }}
-                onChange={e => handleFile(e.target.files[0])} />
-              <div style={{ fontSize: "40px", marginBottom: "12px" }}>🧾</div>
-              <div style={{ fontWeight: 700, fontSize: "16px", marginBottom: "6px" }}>Drop receipt here or click to browse</div>
-              <div style={{ color: "#475569", fontSize: "13px" }}>Supports JPG, PNG, PDF · Mobile camera supported</div>
-              <button style={{ ...S.btn("primary"), marginTop: "20px" }}>Choose File</button>
+            <div>
+              <div
+                style={{ ...S.card, border: "2px dashed #1e3a5f", textAlign: "center", cursor: "pointer", transition: "border-color 0.2s", marginBottom: "12px" }}
+                onClick={() => fileRef.current?.click()}
+                onDragOver={e => { e.preventDefault(); e.currentTarget.style.borderColor = "#2563eb"; }}
+                onDragLeave={e => { e.currentTarget.style.borderColor = "#1e3a5f"; }}
+                onDrop={e => { e.preventDefault(); e.currentTarget.style.borderColor = "#1e3a5f"; handleFile(e.dataTransfer.files[0]); }}
+              >
+                <input ref={fileRef} type="file" accept="image/*,application/pdf" style={{ display: "none" }}
+                  onChange={e => handleFile(e.target.files[0])} />
+                <input ref={cameraRef} type="file" accept="image/*" capture="environment" style={{ display: "none" }}
+                  onChange={e => handleFile(e.target.files[0])} />
+                <div style={{ fontSize: "40px", marginBottom: "12px" }}>🧾</div>
+                <div style={{ fontWeight: 700, fontSize: "16px", marginBottom: "6px" }}>Drop receipt here or click to browse</div>
+                <div style={{ color: "#475569", fontSize: "13px" }}>Supports JPG, PNG, PDF</div>
+                <div style={{ display: "flex", gap: "12px", justifyContent: "center", marginTop: "20px" }}>
+                  <button style={S.btn("primary")} onClick={e => { e.stopPropagation(); fileRef.current?.click(); }}>📁 Choose File</button>
+                  <button style={{ ...S.btn(), background: "#0f4c2a", color: "#4ade80", border: "1px solid #166534" }} onClick={e => { e.stopPropagation(); cameraRef.current?.click(); }}>📷 Take Photo</button>
+                </div>
+              </div>
             </div>
           ) : (
             <div style={S.card}>
