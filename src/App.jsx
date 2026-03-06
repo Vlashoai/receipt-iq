@@ -61,7 +61,7 @@ Rules:
     method: "POST",
     headers: {
   "Content-Type": "application/json",
-  "x-api-key": "import.meta.env.VITE_ANTHROPIC_API_KE",
+  "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
   "anthropic-version": "2023-06-01",
   "anthropic-dangerous-direct-browser-access": "true",
 },
@@ -111,7 +111,7 @@ Category options: Food, Essentials, Household, Personal Care, Cleaning Supplies,
     method: "POST",
     headers: {
   "Content-Type": "application/json",
-  "x-api-key": "import.meta.env.VITE_ANTHROPIC_API_KE",
+  "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
   "anthropic-version": "2023-06-01",
   "anthropic-dangerous-direct-browser-access": "true",
 },
