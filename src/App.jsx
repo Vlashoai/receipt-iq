@@ -57,7 +57,7 @@ Rules:
 - Receipt item names are often abbreviated — make your best guess
 - Return ONLY the JSON, nothing else`;
 
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
+  const response = await fetch("/api/claude", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -102,7 +102,7 @@ Category options: Food, Essentials, Household, Personal Care, Cleaning Supplies,
 - Expand abbreviated item names when possible
 - Return ONLY the JSON`;
 
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
+  const response = await fetch("/api/claude", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
